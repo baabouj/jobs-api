@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: jobs-api
+    ports:
+      - '5432:5432'
+    volumes:
+      - data:/var/lib/postgresql/data
+    networks:
+      - jobs-api-network
+
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - '6379:6379'
+    networks:
+      - jobs-api-network
+
+volumes:
+  data:
+
+networks:
+  jobs-api-network:
+    driver: bridge

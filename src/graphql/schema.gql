@@ -1,0 +1,104 @@
+type Query {
+  jobs(page: Int, limit: Int, search: String): JobsPagination!
+  job(id: ID!): Job!
+  companies(page: Int, limit: Int, search: String): CompaniesPagination!
+  company(id: ID!): Company!
+  me: Company!
+}
+
+type Mutation {
+  signup(company: SignUpInput): Message!
+  login(email: String!, password: String!): AccessToken!
+  logout: Message!
+  refresh: AccessToken!
+  verifyEmail(token: String!): Message!
+  changePassword(oldPassword: String!, newPassword: String!): Message!
+  forgotPassword(email: String!): Message!
+  resetPassword(token: String!, password: String!): Message!
+  sendVerificationEmail: Message!
+  postJob(job: PostJobInput!): Job!
+  editJob(id: ID!, job: EditJobInput!): Job!
+  deleteJob(id: ID!): Message!
+  editCompany(company: EditCompanyInput!): Company!
+}
+
+type Job {
+  id: ID!
+  title: String!
+  description: String!
+  type: String!
+  applicationLink: String!
+  company: Company!
+  createdAt: String!
+}
+
+type Company {
+  id: ID!
+  name: String!
+  email: String!
+  website: String!
+  headquarter: String!
+  logo: String!
+  description: String!
+  jobs(page: Int, limit: Int, search: String): JobsPagination!
+}
+
+type AccessToken {
+  access_token: String!
+}
+
+type Message {
+  message: String!
+}
+
+type PaginationInfo {
+  total: Int!
+  currentPage: Int!
+  nextPage: Int
+  prevPage: Int
+  lastPage: Int!
+  perPage: Int!
+}
+
+type CompaniesPagination {
+  info: PaginationInfo!
+  data: [Company!]!
+}
+
+type JobsPagination {
+  info: PaginationInfo!
+  data: [Job!]!
+}
+
+input SignUpInput {
+  name: String!
+  email: String!
+  website: String!
+  headquarter: String!
+  logo: String!
+  description: String!
+  password: String!
+  confirm: String!
+}
+
+input PostJobInput {
+  title: String!
+  description: String!
+  type: String!
+  applicationLink: String!
+}
+
+input EditJobInput {
+  title: String
+  description: String
+  type: String
+  applicationLink: String
+}
+
+input EditCompanyInput {
+  name: String
+  website: String
+  headquarter: String
+  logo: String
+  description: String
+}
